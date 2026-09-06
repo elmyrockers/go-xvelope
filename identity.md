@@ -147,33 +147,13 @@ AUTHENTICATIONHANDLER:
 
 
 
-```go
-opaqueHandler := opaque.NewHandler(opaque.Options{
-    TokenStore: redisTokenStore, // Interface to validate & fetch claims
-})
-
-pasetoHandler := paseto.NewHandler(paseto.Options{
-    PublicKey: myEd25519PublicKey,
-    Issuer:    "https://auth.example.com",
-    Audience:  "https://api.example.com",
-})
-
-//Register as distinct schemes in xvelope
-authConfig := &auth.Config{
-    Schemes: []*auth.Scheme{
-        {
-            Name:    "OpaqueBearer",
-            Handler: opaqueHandler,
-        },
-        {
-            Name:    "PasetoBearer",
-            Handler: pasetoHandler,
-        },
-    },
-}
-```
 
 
 
 
 
+AddIdentityApiEndpoints()
+	Schemes:
+		- IdentityConstants.ApplicationScheme
+		- IdentityConstants.BearerScheme
+		- IdentityConstants.BearerAndApplicationScheme
