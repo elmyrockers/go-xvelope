@@ -124,31 +124,32 @@ It has over 80 public methods in total.
 			- IUserPasskeyStore<TUser> — passkeys (newer, ~4 methods)
 
 
-AUTHENTICATIONHANDLER:
-	Cookie / Token-Based Handlers:
+## AUTHENTICATIONHANDLER:
+	- Cookie / Token-Based Handlers:
 		- Cookie (encrypted http-only cookie payload )
 		- Session (session-id with server store)
 		- JWT
 		- PASETO
 		- Opaque (encrypted self-contain payload)
 // --------------------------------------------------
-	CookieAuthenticationHandler / BearerTokenHandler
-	└─ extends SignInAuthenticationHandler<TOptions> (implements IAuthenticationSignInHandler)
-	└─ extends SignOutAuthenticationHandler<TOptions> (implements IAuthenticationSignOutHandler)
-	└─ extends AuthenticationHandler<TOptions>
-	└─ implements IAuthenticationHandler
+>	CookieAuthenticationHandler / BearerTokenHandler
+>	└─ extends SignInAuthenticationHandler<TOptions> (implements IAuthenticationSignInHandler)
+>	└─ extends SignOutAuthenticationHandler<TOptions> (implements IAuthenticationSignOutHandler)
+>	└─ extends AuthenticationHandler<TOptions>
+>	└─ implements IAuthenticationHandler
 
 // Both handlers expose these identical public signatures:
-	IAuthenticationHandler
+```c#
+	// IAuthenticationHandler
 	    Task InitializeAsync(AuthenticationScheme scheme, HttpContext context);
 	    Task<AuthenticateResult> AuthenticateAsync();
 	    Task ChallengeAsync(AuthenticationProperties? properties);
 	    Task ForbidAsync(AuthenticationProperties? properties);
-	IAuthenticationSignInHandler
+	// IAuthenticationSignInHandler
 		Task SignInAsync(ClaimsPrincipal user, AuthenticationProperties? properties);
-	IAuthenticationSignOutHandler
+	// IAuthenticationSignOutHandler
 		Task SignOutAsync(AuthenticationProperties? properties);
-
+```
 
 
 
