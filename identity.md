@@ -157,3 +157,86 @@ AddIdentityApiEndpoints()
 		- IdentityConstants.ApplicationScheme
 		- IdentityConstants.BearerScheme
 		- IdentityConstants.BearerAndApplicationScheme
+	DefaultScheme
+	PolicyScheme
+	CookieHandler
+	BearerHandler
+
+
+
+CONFIGURE COOKIE & OPAQUE BEARER OPTIONS:
+```c#
+	var builder = WebApplication.CreateBuilder(args);
+
+	// Add Identity with API endpoints
+	builder.Services.AddIdentityApiEndpoints<IdentityUser>()
+	    .AddEntityFrameworkStores<ApplicationDbContext>();
+
+	// Configure cookie (encrypted payload, stateless)
+	builder.Services.ConfigureApplicationCookie(options =>
+	{
+	    options.Cookie.Name = "MyApp.Auth";
+	    options.ExpireTimeSpan = TimeSpan.FromHours(1);
+	    options.SlidingExpiration = false;
+	    options.Cookie.SameSite = SameSiteMode.Strict;
+	});
+
+	// Configure opaque bearer tokens
+	builder.Services.AddAuthentication()
+	    .AddBearerToken("Bearer", options =>
+	    {
+	        // Token lifetime
+	        options.BearerTokenExpiration = TimeSpan.FromHours(1);
+
+	        // Optional: customize issuer
+	        options.ClaimsIssuer = "myapp";
+
+	        // Optional: hook into events
+	        options.Events = new BearerTokenEvents
+	        {
+	            OnMessageReceived = context =>
+	            {
+	                // Custom logic for extracting token
+	                return Task.CompletedTask;
+	            }
+	        };
+	    });
+
+	// Register policy scheme to switch dynamically
+	builder.Services.AddAuthentication(options =>
+	{
+	    options.DefaultScheme = "Identity"; // composite scheme
+	})
+	.AddPolicyScheme("Identity", "Cookie or Bearer", options =>
+	{
+	    options.ForwardDefaultSelector = context =>
+	    {
+	        // If Authorization header exists → use bearer
+	        if (context.Request.Headers.ContainsKey("Authorization"))
+	            return "Bearer";
+
+	        // Otherwise → use cookie
+	        return IdentityConstants.ApplicationScheme;
+	    };
+	});
+
+	var app = builder.Build();
+
+	// Map Identity API endpoints (login, register, etc.)
+	app.MapIdentityApi<IdentityUser>();
+
+	app.Run();
+```
+
+CONFIGURE PATH OPTIONS:
+```C#
+app.MapIdentityApi<IdentityUser>(options =>
+{
+    options.LoginPath = "/auth/signin";
+    options.LogoutPath = "/auth/signout";
+    options.RegisterPath = "/auth/register";
+    options.RefreshPath = "/auth/refresh";
+    options.MePath = "/auth/me";
+    options.AccessDeniedPath = "/Account/AccessDenied";
+});
+```
