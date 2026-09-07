@@ -124,7 +124,7 @@ It has over 80 public methods in total.
 			- IUserPasskeyStore<TUser> — passkeys (newer, ~4 methods)
 
 
-## AUTHENTICATIONHANDLER:
+## AuthenticationHandler:
 	- Cookie / Token-Based Handlers:
 		- Cookie (encrypted http-only cookie payload )
 		- Session (session-id with server store)
@@ -171,7 +171,7 @@ Both handlers expose these identical public signatures:
 
 
 
-## CONFIGURE COOKIE & OPAQUE BEARER OPTIONS:
+#### CONFIGURE COOKIE & OPAQUE BEARER OPTIONS:
 ```c#
 	var builder = WebApplication.CreateBuilder(args);
 
@@ -235,7 +235,7 @@ Both handlers expose these identical public signatures:
 	app.Run();
 ```
 
-## CONFIGURE PATH OPTIONS:
+#### CONFIGURE PATH OPTIONS:
 ```C#
 app.MapIdentityApi<IdentityUser>(options =>
 {
