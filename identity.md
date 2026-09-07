@@ -131,14 +131,16 @@ It has over 80 public methods in total.
 		- JWT
 		- PASETO
 		- Opaque (encrypted self-contain payload)
-// --------------------------------------------------
->	CookieAuthenticationHandler / BearerTokenHandler
->	└─ extends SignInAuthenticationHandler<TOptions> (implements IAuthenticationSignInHandler)
->	└─ extends SignOutAuthenticationHandler<TOptions> (implements IAuthenticationSignOutHandler)
->	└─ extends AuthenticationHandler<TOptions>
->	└─ implements IAuthenticationHandler
 
-// Both handlers expose these identical public signatures:
+```
+	CookieAuthenticationHandler / BearerTokenHandler
+	└─ extends SignInAuthenticationHandler<TOptions> (implements IAuthenticationSignInHandler)
+	└─ extends SignOutAuthenticationHandler<TOptions> (implements IAuthenticationSignOutHandler)
+	└─ extends AuthenticationHandler<TOptions>
+	└─ implements IAuthenticationHandler
+```
+
+Both handlers expose these identical public signatures:
 ```c#
 	// IAuthenticationHandler
 	    Task InitializeAsync(AuthenticationScheme scheme, HttpContext context);
