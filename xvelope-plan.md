@@ -11,9 +11,11 @@ import (
 Configure:
 ```go
 	app := fiber.New()
-	app.Use(fibermw.New(fibermw.Config{
+	app.Use(fibermw.New(fibermw.Config{}))
 
-	}))
+	app.Post( "/auth/login",func(c fiber.Ctx) error {
+		auth := fibermw.FromContext(c)
+	})
 ```
 
 
