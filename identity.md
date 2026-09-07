@@ -234,9 +234,6 @@ app.MapIdentityApi<IdentityUser>(options =>
 {
     options.LoginPath = "/auth/signin";
     options.LogoutPath = "/auth/signout";
-    options.RegisterPath = "/auth/register";
-    options.RefreshPath = "/auth/refresh";
-    options.MePath = "/auth/me";
     options.AccessDeniedPath = "/Account/AccessDenied";
 });
 ```
