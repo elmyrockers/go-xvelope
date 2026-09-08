@@ -244,3 +244,37 @@ app.MapIdentityApi<IdentityUser>(options =>
     options.AccessDeniedPath = "/Account/AccessDenied";
 });
 ```
+
+
+#### LOGIN ENDPOINT
+```c#
+// Simplified directly from the .NET Runtime source code:
+routeGroup.MapPost("/login", async Task<Results<Ok<AccessTokenResponse>, EmptyHttpResult, ProblemHttpResult>>
+    ([FromBody] LoginRequest login, [FromQuery] bool? useCookies, [FromQuery] bool? useSessionCookies, [FromServices] IServiceProvider sp) =>
+{
+    var signInManager = sp.GetRequiredService<SignInManager<TUser>>();
+
+    // 1. Checks query parameters built-in
+    var useCookieScheme = (useCookies == true) || (useSessionCookies == true);
+    var isPersistent = (useCookies == true) && (useSessionCookies != true);
+
+    // 2. Authenticates credentials
+    var result = await signInManager.PasswordSignInAsync(login.Email, login.Password, isPersistent, lockoutOnFailure: true);
+
+    if (!result.Succeeded)
+    {
+        return TypedResults.Problem(result.ToString(), statusCode: StatusCodes.Status401Unauthorized);
+    }
+
+    // 3. Chooses Cookie vs. Bearer output automatically
+    if (useCookieScheme)
+    {
+        // Cookie Handler sets the response cookie automatically during PasswordSignInAsync
+        return TypedResults.Empty;
+    }
+
+    // Otherwise, generate JSON access + refresh tokens
+    return TypedResults.Ok(await CreateAccessTokenResponseAsync(user, signInManager, timeProvider));
+});
+```
+
