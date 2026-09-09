@@ -13,8 +13,8 @@ Configure:
 ```go
 	app := fiber.New()
 	app.Use(fibermw.New(xvelope.Config{
-		DefaultScheme: xvelope.BOTHSCHEME,
-		PolicyScheme: nil,
+		DefaultScheme: xvelope.CookieAndBearerScheme,
+		SchemeSelector: nil,
 		LoginRoute: nil,
 		CookieHandler: nil,
 		BearerHandler: nil,
@@ -25,10 +25,8 @@ Configure:
 	})
 ```
 
-
 ## Middleware
 ```go
 GuestOnly
 AuthRequired (RequireAuthorization)
 ```
-
