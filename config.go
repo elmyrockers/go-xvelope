@@ -1,14 +1,16 @@
 package xvelope
 
+type AuthScheme uint8
+
 const (
-	CookieScheme uint8 = 1 << iota
+	CookieScheme AuthScheme = 1 << iota
 	BearerScheme
 	CookieAndBearerScheme = CookieScheme | BearerScheme
 )
 
 type Config struct{
-	DefaultScheme uint8
-	PolicyScheme func(ctx HttpContext) error
+	DefaultScheme AuthScheme
+	SchemeSelector func(ctx HttpContext) AuthScheme
 	LoginRoute string
 	CookieHandler Authenticator
 	BearerHandler Authenticator
