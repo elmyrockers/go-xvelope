@@ -19,18 +19,13 @@ func New(config ...xvelope.Config) fiber.Handler {
 			cfg = config[0]
 		}
 
-	// Create FastHttpContext and Auth instance
-		httpCtx := &xvelope.FastHttpContext{}
-		auth := xvelope.New( cfg )
-
 	// Set httpcontext then store auth instance
 		return func(c fiber.Ctx) error {
-			httpCtxCopy := *httpCtx
-			httpCtxCopy.SetContext( c.RequestCtx() )
-			authCopy := *auth
-			authCopy.SetHttpContext( &httpCtxCopy )
+			httpCtx := &xvelope.FastHttpContext{}
+			httpCtx.SetContext( c.RequestCtx() )
+			auth := xvelope.New( httpCtx, cfg )
 
-			c.Locals(authKey, &authCopy)
+			c.Locals(authKey, &auth)
 			return c.Next()
 		}
 }
