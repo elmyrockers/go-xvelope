@@ -9,11 +9,16 @@ type Auth struct {
 	authenticator Authenticator
 }
 
-func New( config ...Config) *Auth {
-	// Resolve config slice
-		var cfg Config
-		if len(config) > 0 {
-			cfg = config[0]
+func New( params ...any) *Auth {
+	// Resolve params slice
+		var context HttpContext
+		if (len(params) > 0){
+			context = params[0]
+		}
+
+		var config Config
+		if (len(params) > 1){
+			config = params[1]
 		}
 
 	// 
