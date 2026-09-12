@@ -3,7 +3,10 @@ package xvelope
 import "github.com/davecgh/go-spew/spew"
 
 type Auth struct {
+	config Config
 	context HttpContext
+
+	authenticator Authenticator
 }
 
 func New( config ...Config) *Auth {
@@ -16,7 +19,7 @@ func New( config ...Config) *Auth {
 	// 
 	spew.Dump( cfg )
 
-	return &Auth{}
+	return &Auth{config: cfg}
 }
 
 func (a *Auth) SetHttpContext( ctx HttpContext) {
