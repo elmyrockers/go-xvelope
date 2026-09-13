@@ -3,6 +3,8 @@ package fiber
 import (
 	"github.com/gofiber/fiber/v3"
 	"github.com/elmyrockers/go-xvelope"
+
+	"github.com/davecgh/go-spew/spew"
 )
 
 // Private type prevents external key collisions
@@ -24,6 +26,8 @@ func New(config ...xvelope.Config) fiber.Handler {
 			httpCtx := &xvelope.FastHttpContext{}
 			httpCtx.SetContext( c.RequestCtx() )
 			auth := xvelope.New( httpCtx, cfg )
+
+			spew.Dump( auth )
 
 			c.Locals(authKey, &auth)
 			return c.Next()
