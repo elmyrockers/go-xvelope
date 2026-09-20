@@ -4,8 +4,9 @@ package main
 
 import (
 	"github.com/gofiber/fiber/v3"
-	fiberauth "github.com/elmyrockers/go-xvelope/middleware/fiber"
-	"github.com/davecgh/go-spew/spew"
+	fibermw "github.com/elmyrockers/go-xvelope/middleware/fiber"
+	"github.com/elmyrockers/go-xvelope"
+	// "github.com/davecgh/go-spew/spew"
 )
 
 
@@ -13,11 +14,14 @@ import (
 
 func main() {
 	app := fiber.New()
-	app.Use( fiberauth.New() )
+	app.Use(fibermw.New(xvelope.Config{
+		DefaultScheme: xvelope.CookieScheme,
+	}))
 
 	app.Get( "/",func( c fiber.Ctx ) error {
-		auth := fiberauth.FromContext(c)
-		spew.Dump( auth )
+		auth := fibermw.FromContext(c)
+		_ = auth
+		// spew.Dump( auth )
 		return c.SendString("OK")
 	})
 

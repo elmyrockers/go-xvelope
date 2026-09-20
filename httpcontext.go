@@ -1,15 +1,6 @@
 package xvelope
 
-import (
-	"encoding/json"
-	"time"
-	"net/http"
-
-	"github.com/valyala/fasthttp"
-	// "github.com/davecgh/go-spew/spew"
-)
-
-
+import "time"
 
 type SameSite int
 
@@ -47,7 +38,7 @@ type HttpContext interface {
 }
 
 // Compile-time interface checks
-var (
-	_ HttpContext = (*FastHttpContext)(nil)
-	_ HttpContext = (*NetHttpContext)(nil)
-)
+// var (
+// 	_ HttpContext = (*FastHttpContext)(nil)
+// 	_ HttpContext = (*NetHttpContext)(nil)
+// )
