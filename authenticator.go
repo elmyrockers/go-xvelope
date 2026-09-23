@@ -1,6 +1,6 @@
 package xvelope
 
-import "github.com/elmyrockers/go-xvelope/authenticator"
+// import "github.com/elmyrockers/go-xvelope/authenticator"
 
 type Authenticator interface {
 	Initialize( context HttpContext )
