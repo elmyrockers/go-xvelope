@@ -36,9 +36,3 @@ type HttpContext interface {
 
 	SetContext( ctx any )
 }
-
-// Compile-time interface checks
-// var (
-// 	_ HttpContext = (*FastHttpContext)(nil)
-// 	_ HttpContext = (*NetHttpContext)(nil)
-// )
